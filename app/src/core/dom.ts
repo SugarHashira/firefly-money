@@ -174,6 +174,8 @@ export function emptyState(kind: keyof typeof EMPTY_ICONS | string, title: strin
   return html`<div class="empty-state"><div class="es-ic" aria-hidden="true">${raw(`<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`)}</div><h3>${title}</h3><p>${text}</p>${actions ? html`<div class="es-act">${actions}</div>` : ''}</div>`;
 }
 export const opt = (v: string | number, label: string | number, sel: unknown) => html`<option value="${v}"${String(v) === String(sel) ? ' selected' : ''}>${label}</option>`;
+// Category dropdown options: None, then every category. A current value that is no longer in the list stays selectable so editing never drops it.
+export const catOptions = (names: string[], cur: unknown, none = 'None') => { const c = String(cur ?? ''); return html`${opt('', none, c)}${htmlList(names.map(n => opt(n, n, c)))}${c && !names.includes(c) ? opt(c, c, c) : ''}`; };
 
 // The methods markup handlers call (see events.ts), added to App and to its type
 const methods = {
